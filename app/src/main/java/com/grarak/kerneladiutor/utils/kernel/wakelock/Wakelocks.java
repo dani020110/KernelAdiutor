@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2016 Willi Ye <williye97@gmail.com>
+ * Copyright (C) 2015-2017 Willi Ye <williye97@gmail.com>
  *
  * This file is part of Kernel Adiutor.
  *
@@ -17,7 +17,7 @@
  * along with Kernel Adiutor.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.grarak.kerneladiutor.utils.kernel.misc;
+package com.grarak.kerneladiutor.utils.kernel.wakelock;
 
 import android.content.Context;
 import android.support.annotation.StringRes;
@@ -194,4 +194,9 @@ public class Wakelocks {
         Control.runSetting(command, ApplyOnBootFragment.MISC, id, context);
     }
 
+    public static boolean supported() {
+        return Utils.existFile("/sys/module/bcmdhd/parameters/wl_divide") || Utils.existFile("/sys/module/xhci_hcd/parameters/wl_divide")
+                || Utils.existFile("/sys/module/bcmdhd/parameters/wlctrl_divide") || Utils.existFile("/sys/module/smb135x_charger/parameters/use_wlock")
+                || Utils.existFile("/sys/module/wakeup/parameters");
+    }
 }
