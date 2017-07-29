@@ -94,6 +94,15 @@
   },
   {
     "vendor": [
+      "Sony"
+    ],
+    "device": [
+     "E2306"
+    ],
+    "link": "https://raw.githubusercontent.com/dani020110/KernelAdiutor/master/download/tulip.json"
+  },
+  {
+    "vendor": [
       "samsung"
     ],
     "device": [
