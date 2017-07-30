@@ -344,6 +344,15 @@
     <string name="max_cpu_online_big_summary">Set the Maximum Number of Online Cores.</string>
     <string name="max_cpu_online_little">LITTLE Cluster</string>
     <string name="max_cpu_online_little_summary">Set the Maximum Number of Online Cores.</string>
+    <string name="cluster_plug">Cluster-plug</string>
+    <string name="cluster_plug_summary">A cluster-based hotplug for homogeneous big.LITTLE systems where the big cluster is preferred. Developed by sultanqasim and crpalmer.</string>
+    <string name="load_threshold_up">Load threshold up</string>
+    <string name="load_threshold_down">Load threshold down</string>
+    <string name="low_power_mode">Low power mode</string>
+    <string name="low_power_mode_summary">Turn off the big cluster instead of the LITTLE one.</string>
+    <string name="sampling_time">Sampling time</string>
+    <string name="vote_threshold_down">Vote threshold down</string>
+    <string name="vote_threshold_up">Vote threshold up</string>
 
     <!--Thermal-->
     <string name="thermal_info">Use only one thermal driver from the following options, using more at the same time may cause unexpected behavior.</string>

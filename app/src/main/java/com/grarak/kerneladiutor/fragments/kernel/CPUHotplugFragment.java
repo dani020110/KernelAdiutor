@@ -29,6 +29,7 @@ import com.grarak.kerneladiutor.utils.kernel.cpuhotplug.AlucardHotplug;
 import com.grarak.kerneladiutor.utils.kernel.cpuhotplug.AutoSmp;
 import com.grarak.kerneladiutor.utils.kernel.cpuhotplug.BluPlug;
 import com.grarak.kerneladiutor.utils.kernel.cpuhotplug.CoreCtl;
+import com.grarak.kerneladiutor.utils.kernel.cpuhotplug.ClusterPlug;
 import com.grarak.kerneladiutor.utils.kernel.cpuhotplug.IntelliPlug;
 import com.grarak.kerneladiutor.utils.kernel.cpuhotplug.LazyPlug;
 import com.grarak.kerneladiutor.utils.kernel.cpuhotplug.MBHotplug;
@@ -101,6 +102,9 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
         }
         if (CoreCtl.supported()) {
             coreCtlInit(items);
+        }
+        if (ClusterPlug.supported()) {
+            clusterPlugInit(items);
         }
         if (AiOHotplug.supported()) {
             aioHotplugInit(items);
@@ -2395,4 +2399,140 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
         }
     }
 
+    private void clusterPlugInit(List<RecyclerViewItem> items) {
+         List<RecyclerViewItem> clusterplug = new ArrayList<>();
+
+         TitleView title = new TitleView();
+         title.setText(getString(R.string.cluster_plug));
+
+         if (ClusterPlug.hasClusterPlugEnable()) {
+             SwitchView enable = new SwitchView();
+             enable.setSummary(getString(R.string.cluster_plug_summary));
+             enable.setChecked(ClusterPlug.isClusterPlugEnabled());
+             enable.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+                 @Override
+                 public void onChanged(SwitchView switchView, boolean isChecked) {
+                     ClusterPlug.enableClusterPlug(isChecked, getActivity());
+                 }
+             });
+
+             clusterplug.add(enable);
+             mEnableViews.add(enable);
+         }
+
+         if (ClusterPlug.hasLowPowerMode()) {
+             SwitchView powerMode = new SwitchView();
+             powerMode.setTitle(getString(R.string.low_power_mode));
+             powerMode.setSummary(getString(R.string.low_power_mode_summary));
+             powerMode.setChecked(ClusterPlug.isLowPowerModeEnabled());
+             powerMode.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+                 @Override
+                 public void onChanged(SwitchView switchView, boolean isChecked) {
+                     ClusterPlug.enableLowPowerModeActive(isChecked, getActivity());
+                 }
+             });
+
+             clusterplug.add(powerMode);
+         }
+
+         if (ClusterPlug.hasClusterPlugLoadThresholdUp()) {
+             SeekBarView loadthresholdup = new SeekBarView();
+             loadthresholdup.setTitle(getString(R.string.load_threshold_up));
+             loadthresholdup.setMax(100);
+             loadthresholdup.setProgress(ClusterPlug.getClusterPlugLoadThresholdUp());
+             loadthresholdup.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                 @Override
+                 public void onMove(SeekBarView seekBarView, int position, String value) {
+                 }
+
+                 @Override
+                 public void onStop(SeekBarView seekBarView, int position, String value) {
+                     ClusterPlug.setClusterPlugLoadThresholdUp(position, getActivity());
+                 }
+             });
+
+            clusterplug.add(loadthresholdup);
+         }
+
+         if (ClusterPlug.hasClusterPlugLoadThresholdDown()) {
+             SeekBarView loadthresholddown = new SeekBarView();
+             loadthresholddown.setTitle(getString(R.string.load_threshold_down));
+             loadthresholddown.setMax(100);
+             loadthresholddown.setProgress(ClusterPlug.getClusterPlugLoadThresholdDown());
+             loadthresholddown.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                 @Override
+                 public void onMove(SeekBarView seekBarView, int position, String value) {
+                 }
+
+                 @Override
+                 public void onStop(SeekBarView seekBarView, int position, String value) {
+                     ClusterPlug.setClusterPlugLoadThresholdDown(position, getActivity());
+                 }
+             });
+
+            clusterplug.add(loadthresholddown);
+         }
+
+         if (ClusterPlug.hasClusterPlugVoteThresholdUp()) {
+             SeekBarView votethresholdup = new SeekBarView();
+             votethresholdup.setTitle(getString(R.string.vote_threshold_up));
+             votethresholdup.setMax(10);
+             votethresholdup.setProgress(ClusterPlug.getClusterPlugVoteThresholdUp());
+             votethresholdup.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                 @Override
+                 public void onMove(SeekBarView seekBarView, int position, String value) {
+                 }
+
+                 @Override
+                 public void onStop(SeekBarView seekBarView, int position, String value) {
+                     ClusterPlug.setClusterPlugVoteThresholdUp(position, getActivity());
+                 }
+             });
+
+            clusterplug.add(votethresholdup);
+         }
+
+         if (ClusterPlug.hasClusterPlugVoteThresholdDown()) {
+             SeekBarView votethresholddown = new SeekBarView();
+             votethresholddown.setTitle(getString(R.string.vote_threshold_down));
+             votethresholddown.setMax(10);
+             votethresholddown.setProgress(ClusterPlug.getClusterPlugVoteThresholdDown());
+             votethresholddown.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                 @Override
+                 public void onMove(SeekBarView seekBarView, int position, String value) {
+                 }
+
+                 @Override
+                 public void onStop(SeekBarView seekBarView, int position, String value) {
+                     ClusterPlug.setClusterPlugVoteThresholdDown(position, getActivity());
+                 }
+             });
+
+            clusterplug.add(votethresholddown);
+         }
+
+         if (ClusterPlug.hasClusterPlugSamplingTime()) {
+             SeekBarView samplingtime = new SeekBarView();
+             samplingtime.setTitle(getString(R.string.sampling_time));
+             samplingtime.setMax(100);
+             samplingtime.setProgress(ClusterPlug.getClusterPlugSamplingTime());
+             samplingtime.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                 @Override
+                 public void onMove(SeekBarView seekBarView, int position, String value) {
+                 }
+
+                 @Override
+                 public void onStop(SeekBarView seekBarView, int position, String value) {
+                     ClusterPlug.setClusterPlugSamplingTime(position, getActivity());
+                 }
+             });
+
+            clusterplug.add(samplingtime);
+         }
+
+         if (clusterplug.size() > 0) {
+             items.add(title);
+             items.addAll(clusterplug);
+             }
+    }
 }
