@@ -32,6 +32,7 @@
             android:summary="@string/hide_banner" />
         <SwitchPreferenceCompat
             android:key="forcecards"
+            android:defaultValue="true"
             android:summary="@string/force_cards_summary"
             android:title="@string/force_cards" />
         <com.grarak.kerneladiutor.views.preference.ColorPreference
