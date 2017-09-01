@@ -39,6 +39,15 @@ public class Network {
     private static final String TCP_AVAILABLE_CONGESTIONS = "/proc/sys/net/ipv4/tcp_available_congestion_control";
     private static final String HOSTNAME_KEY = "net.hostname";
 
+    private static final String ARP = "/sys/arp_project";
+    private static final String ARP_ENABLE = ARP + "/arp_project_enable";
+    private static final String ARP_VERSION = ARP + "/arp_project_version";
+    private static final String ARP_ATTACKER_HA = ARP + "/detected_attacker_ha";
+    private static final String ARP_IGNORE_REP = ARP + "/ignore_gw_update_by_reply";
+    private static final String ARP_IGNORE_REQ = ARP + "/ignore_gw_update_by_request";
+    private static final String ARP_IGNORE_PRX = ARP + "/ignore_proxy_arp";
+    private static final String ARP_CLR_HW = ARP + "/clear_attacker_ha";
+
     public static void setHostname(String value, Context context) {
         run(Control.setProp(HOSTNAME_KEY, value), HOSTNAME_KEY, context);
     }
@@ -63,4 +72,51 @@ public class Network {
         Control.runSetting(command, ApplyOnBootFragment.NETWORK, id, context);
     }
 
+    public static boolean isArpSupported() {
+        return Utils.existFile(ARP);
+    }
+
+    public static void enableArp(boolean enable, Context context) {
+        run(Control.write(enable ? "1" : "0", ARP_ENABLE), ARP_ENABLE, context);
+    }
+
+    public static boolean isArpEnabled() {
+        return Utils.readFile(ARP_ENABLE).equals("1");
+    }
+
+    public static String getArpVersion() {
+        return Utils.readFile(ARP_VERSION);
+    }
+
+    public static String getArpAttackerHa() {
+        return Utils.readFile(ARP_ATTACKER_HA);
+    }
+
+    public static void setArpIgnoreRep(boolean enable, Context context) {
+        run(Control.write(enable ? "1" : "0", ARP_IGNORE_REP), ARP_IGNORE_REP, context);
+    }
+
+    public static boolean isArpIgnoreRep() {
+        return Utils.readFile(ARP_IGNORE_REP).equals("1");
+    }
+
+    public static void setArpIgnoreReq(boolean enable, Context context) {
+        run(Control.write(enable ? "1" : "0", ARP_IGNORE_REQ), ARP_IGNORE_REQ, context);
+    }
+
+    public static boolean isArpIgnoreReq() {
+        return Utils.readFile(ARP_IGNORE_REQ).equals("1");
+    }
+
+    public static void setArpIgnorePrx(boolean enable, Context context) {
+        run(Control.write(enable ? "1" : "0", ARP_IGNORE_PRX), ARP_IGNORE_PRX, context);
+    }
+
+    public static boolean isArpIgnorePrx() {
+        return Utils.readFile(ARP_IGNORE_PRX).equals("1");
+    }
+
+    public static void setArpClAttHa(Context context) {
+        run(Control.write("1", ARP_CLR_HW), ARP_CLR_HW, context);
+    }
 }

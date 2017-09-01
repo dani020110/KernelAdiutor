@@ -24,7 +24,9 @@ import com.grarak.kerneladiutor.R;
 import com.grarak.kerneladiutor.fragments.ApplyOnBootFragment;
 import com.grarak.kerneladiutor.fragments.RecyclerViewFragment;
 import com.grarak.kerneladiutor.utils.kernel.network.Network;
+import com.grarak.kerneladiutor.utils.Utils;
 import com.grarak.kerneladiutor.views.recyclerview.GenericSelectView;
+import com.grarak.kerneladiutor.views.recyclerview.DescriptionView;
 import com.grarak.kerneladiutor.views.recyclerview.RecyclerViewItem;
 import com.grarak.kerneladiutor.views.recyclerview.SeekBarView;
 import com.grarak.kerneladiutor.views.recyclerview.SelectView;
@@ -49,6 +51,10 @@ public class NetworkFragment extends RecyclerViewFragment {
     @Override
     protected void addItems(List<RecyclerViewItem> items) {
         networkInit(items);
+
+        if (Network.isArpSupported()) {
+            arpInit(items);
+        }
     }    
 
     private void networkInit(List<RecyclerViewItem> items) {
@@ -82,5 +88,78 @@ public class NetworkFragment extends RecyclerViewFragment {
         });
 
         items.add(hostname);
+    }
+
+    private void arpInit(List<RecyclerViewItem> items) {
+
+        TitleView title = new TitleView();
+        title.setText(getString(R.string.arp_title) + " " + Network.getArpVersion());
+
+        SwitchView enable = new SwitchView();
+        enable.setSummary(getString(R.string.arp_enable));
+        enable.setChecked(Network.isArpEnabled());
+        enable.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+            @Override
+            public void onChanged(SwitchView switchView, boolean isChecked) {
+                Network.enableArp(isChecked, getActivity());
+            }
+        });
+
+        SwitchView ignorebyrep = new SwitchView();
+        ignorebyrep.setSummary(getString(R.string.arp_ignorebyrep));
+        ignorebyrep.setChecked(Network.isArpIgnoreRep());
+        ignorebyrep.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+            @Override
+            public void onChanged(SwitchView switchView, boolean isChecked) {
+                Network.setArpIgnoreRep(isChecked, getActivity());
+            }
+        });
+
+        SwitchView ignorebyreq = new SwitchView();
+        ignorebyreq.setSummary(getString(R.string.arp_ignorebyreq));
+        ignorebyreq.setChecked(Network.isArpIgnoreReq());
+        ignorebyreq.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+            @Override
+            public void onChanged(SwitchView switchView, boolean isChecked) {
+                Network.setArpIgnoreReq(isChecked, getActivity());
+            }
+        });
+
+        SwitchView ignoreproxy = new SwitchView();
+        ignoreproxy.setSummary(getString(R.string.arp_ignoreproxy));
+        ignoreproxy.setChecked(Network.isArpIgnorePrx());
+        ignoreproxy.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+            @Override
+            public void onChanged(SwitchView switchView, boolean isChecked) {
+                Network.setArpIgnorePrx(isChecked, getActivity());
+            }
+        });
+
+        DescriptionView attackerha = new DescriptionView();
+        attackerha.setSummary(getString(R.string.arp_attacker_ha));
+        attackerha.setOnItemClickListener(new RecyclerViewItem.OnItemClickListener() {
+            @Override
+            public void onClick(RecyclerViewItem item) {
+                Utils.toast(Network.getArpAttackerHa(), getActivity());
+            }
+        });
+
+        DescriptionView clattackerha = new DescriptionView();
+        clattackerha.setSummary(getString(R.string.arp_clattackerha));
+        clattackerha.setOnItemClickListener(new RecyclerViewItem.OnItemClickListener() {
+            @Override
+            public void onClick(RecyclerViewItem item) {
+                Utils.toast(R.string.arp_clattackerha_toast, getActivity());
+                Network.setArpClAttHa(getActivity());
+            }
+        });
+
+        items.add(title);
+        items.add(enable);
+        items.add(ignorebyrep);
+        items.add(ignorebyreq);
+        items.add(ignoreproxy);
+        items.add(attackerha);
+        items.add(clattackerha);
     }
 }
