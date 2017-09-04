@@ -6,7 +6,7 @@
     <color name="textcolor_light">#8a000000</color>
     <color name="textcolor_dark">#b3ffffff</color>
 
-    <color name="black">#000000</color>
+    <color name="black">#1a1a1a</color>
     <color name="white">#ffffff</color>
     <color name="green">#5fb962</color>
     <color name="red">#f66055</color>
@@ -21,4 +21,7 @@
     <color name="grey_accent">#bdbdbd</color>
     <color name="blue_grey_accent">#607d8b</color>
     <color name="teal_accent">#4db6ac</color>
+    <color name="card_background_dark">#272727</color>
+    <color name="cardview_dark_background">#272727</color>
+    <color name="navigationdrawer_background_dark">#272727</color>
 </resources>
